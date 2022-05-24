@@ -1,0 +1,18 @@
+CUDA_VISIBLE_DEVICES=1 python run_seq2seq_qa_tamura.py \
+  --model_name_or_path google/mt5-base \
+  --train_file ./train_knowhow/train_v2.5_only_false.json \
+  --test_file ./test_knowhow/test_v3_neo_job.json \
+  --context_column context \
+  --question_column question \
+  --answer_column answers \
+  --do_train True\
+  --do_eval False\
+  --do_predict False\
+  --per_device_train_batch_size 12 \
+  --learning_rate 3e-5 \
+  --num_train_epochs 2 \
+  --max_seq_length 384 \
+  --doc_stride 128 \
+  --output_dir ./mt5_train_mixData/ \
+  --predict_with_generate \
+  --generation_max_length 384
