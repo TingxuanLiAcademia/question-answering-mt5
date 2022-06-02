@@ -14,6 +14,46 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+# mT5でのノウハウ型質問応答
+## データセットフォーマット
+```json
+{
+  "dataset":"train/test"
+  "data":
+  [
+    "qid"
+    "question"
+    "context"
+    "answers":{"text","answer_start"}
+    "title"
+    "is_impossible"
+  ]
+}
+```
+## 訓練のスクリプト
+```
+CUDA_VISIBLE_DEVICES=1 python run_seq2seq_qa_tamura.py \
+  --model_name_or_path google/mt5-base \
+  --train_file ./dataset/train_knowhow/train_v2.5_mod_neo.json \ #fine-tuningのデータセットはここ
+  --test_file ./dataset/test_knowhow/test_v2.4_mar_mod_neo.json \ #評価事例はここ
+  --context_column context \
+  --question_column question \
+  --answer_column answers \
+  --do_train True\ #訓練するかどうか
+  --do_eval False\ #まだvalidationする予定はない
+  --do_predict False\ #評価事例を予測するかどうか
+  --per_device_train_batch_size 12 \
+  --learning_rate 3e-5 \
+  --num_train_epochs 2 \
+  --max_seq_length 384 \
+  --doc_stride 128 \
+  --output_dir ./mt5_trained_kh_2.0/ \
+  --version_2_with_negative True \ #回答不可能の事例も考慮
+  --predict_with_generate \ #mT5ならではのargument
+  --generation_max_length 384
+```
+
+# 以下はhuggingfaceの説明
 # Question answering
 
 This folder contains several scripts that showcase how to fine-tune a 🤗 Transformers model on a question answering dataset,
