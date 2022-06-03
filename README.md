@@ -30,6 +30,29 @@ limitations under the License.
   ]
 }
 ```
+## 環境構築
+- docker image
+  - tingxuan.img
+  
+- virtual environment
+  - [huggingface/virtual environment](https://huggingface.co/docs/transformers/installation#installing-from-source)
+
+- [transformer/huggingface version](https://huggingface.co/docs/transformers/installation#editable-install)
+
+- torch version
+```
+# v1.8.1 CUDA 10.1
+pip install torch==1.8.1+cu101 torchvision==0.9.1+cu101 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+```
+  - [previous-versions of Pytorch](https://pytorch.org/get-started/previous-versions/)
+
+- protobuf
+```
+# エラー
+ImportError: T5Converter requires the protobuf library but it was not found in your environment.
+```
+  - [protobuf/python](https://github.com/protocolbuffers/protobuf/tree/main/python)
+
 ## 訓練のスクリプト
 ```
 CUDA_VISIBLE_DEVICES=1 python run_seq2seq_qa_tamura.py \
